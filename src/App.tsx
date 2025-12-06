@@ -3,11 +3,13 @@ import { GameLayout } from './components/Layout/GameLayout';
 import { SequencingGame } from './features/sequencing/SequencingGame';
 import { SortingGame } from './features/sorting/SortingGame';
 import robotImg from './assets/images/robot.png';
+import { useAuth } from './contexts/AuthContext';
 
 type View = 'home' | 'sequencing' | 'sorting';
 
 function App() {
   const [currentView, setCurrentView] = useState<View>('home');
+  const { user, signInWithGoogle, logout } = useAuth();
 
   return (
     <GameLayout>
@@ -19,8 +21,42 @@ function App() {
           gap: '2rem',
           width: '100%',
           maxWidth: '800px',
-          margin: '0 auto'
+          margin: '0 auto',
+          position: 'relative' // For absolute positioning of auth
         }}>
+          {/* Auth Button */}
+          <div style={{ position: 'absolute', top: -40, right: 0, zIndex: 10 }}>
+            {user ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: 'rgba(255,255,255,0.1)', padding: '0.5rem 1rem', borderRadius: '50px' }}>
+                {user.photoURL && <img src={user.photoURL} alt="User" style={{ width: 40, height: 40, borderRadius: '50%' }} />}
+                <span style={{ color: 'white', fontWeight: 'bold' }}>Hi, {user.displayName?.split(' ')[0]}!</span>
+                <button
+                  onClick={() => logout()}
+                  style={{ background: 'var(--color-accent)', color: 'white', padding: '0.5rem 1rem', borderRadius: '20px', fontSize: '0.8rem' }}
+                >
+                  Log Out
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => signInWithGoogle()}
+                style={{
+                  background: 'white',
+                  color: 'black',
+                  padding: '0.8rem 1.5rem',
+                  borderRadius: '50px',
+                  fontWeight: 'bold',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  boxShadow: '0 4px 10px rgba(0,0,0,0.3)'
+                }}
+              >
+                <span style={{ fontSize: '1.2rem' }}>G</span> Parent Sign In
+              </button>
+            )}
+          </div>
+
           <h1 style={{
             fontSize: '4rem',
             color: 'var(--color-text)',

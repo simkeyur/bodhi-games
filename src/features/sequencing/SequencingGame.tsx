@@ -2,6 +2,7 @@ import React from 'react';
 import { GridBoard, CommandPalette, SequenceList } from './components/GameComponents';
 import { useSequencingGame } from './hooks/useSequencingGame';
 import styles from './components/SequencingStyles.module.css';
+import { useGameScore } from '../../hooks/useGameScore';
 
 interface SequencingGameProps {
     onBack: () => void;
@@ -16,6 +17,14 @@ export const SequencingGame: React.FC<SequencingGameProps> = ({ onBack }) => {
         resetGame,
         clearSequence
     } = useSequencingGame();
+
+    const { saveScore } = useGameScore('sequencing_lvl1');
+
+    React.useEffect(() => {
+        if (gameState.isWon) {
+            saveScore(100); // Fixed score for completing the level
+        }
+    }, [gameState.isWon, saveScore]);
 
     return (
         <div style={{
