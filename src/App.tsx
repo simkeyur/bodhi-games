@@ -24,9 +24,9 @@ function App() {
           margin: '0 auto',
           position: 'relative' // For absolute positioning of auth
         }}>
-          {/* Auth Button */}
-          <div style={{ position: 'absolute', top: -40, right: 0, zIndex: 10 }}>
-            {user ? (
+          {/* User Profile (Only if logged in) */}
+          {user && (
+            <div style={{ position: 'absolute', top: -40, right: 0, zIndex: 10 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: 'rgba(255,255,255,0.1)', padding: '0.5rem 1rem', borderRadius: '50px' }}>
                 {user.photoURL && <img src={user.photoURL} alt="User" style={{ width: 40, height: 40, borderRadius: '50%' }} />}
                 <span style={{ color: 'white', fontWeight: 'bold' }}>Hi, {user.displayName?.split(' ')[0]}!</span>
@@ -37,25 +37,8 @@ function App() {
                   Log Out
                 </button>
               </div>
-            ) : (
-              <button
-                onClick={() => signInWithGoogle()}
-                style={{
-                  background: 'white',
-                  color: 'black',
-                  padding: '0.8rem 1.5rem',
-                  borderRadius: '50px',
-                  fontWeight: 'bold',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  boxShadow: '0 4px 10px rgba(0,0,0,0.3)'
-                }}
-              >
-                <span style={{ fontSize: '1.2rem' }}>G</span> Parent Sign In
-              </button>
-            )}
-          </div>
+            </div>
+          )}
 
           <h1 style={{
             fontSize: '4rem',
@@ -76,45 +59,75 @@ function App() {
             }}
           />
 
-          <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-            <button
-              onClick={() => setCurrentView('sequencing')}
-              style={{
-                background: 'linear-gradient(135deg, var(--color-primary), var(--color-accent))',
-                color: 'white',
-                padding: '1.5rem 3rem',
-                borderRadius: 'var(--button-radius)',
-                fontSize: '2rem',
-                fontWeight: 'bold',
-                boxShadow: '0 10px 20px rgba(0,0,0,0.3)',
-                transition: 'transform 0.2s',
-              }}
-              onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
-              onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-            >
-              Robot Path 🤖
-            </button>
+          {!user ? (
+            /* Login Gate */
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+              <p style={{ fontSize: '1.5rem', color: '#ccc', textAlign: 'center' }}>
+                Please sign in to save your awesome scores! 🚀
+              </p>
+              <button
+                onClick={() => signInWithGoogle()}
+                style={{
+                  background: 'linear-gradient(135deg, white, #e0e0e0)',
+                  color: 'black',
+                  padding: '1.5rem 3rem',
+                  borderRadius: '50px',
+                  fontSize: '1.5rem',
+                  fontWeight: 'bold',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '1rem',
+                  boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s'
+                }}
+              >
+                <span style={{ fontSize: '2rem' }}>G</span> Sign In with Google
+              </button>
+            </div>
+          ) : (
+            /* Game Menu (Only visible if logged in) */
+            <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+              <button
+                onClick={() => setCurrentView('sequencing')}
+                style={{
+                  background: 'linear-gradient(135deg, var(--color-primary), var(--color-accent))',
+                  color: 'white',
+                  padding: '1.5rem 3rem',
+                  borderRadius: 'var(--button-radius)',
+                  fontSize: '2rem',
+                  fontWeight: 'bold',
+                  boxShadow: '0 10px 20px rgba(0,0,0,0.3)',
+                  transition: 'transform 0.2s',
+                }}
+                onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
+                onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              >
+                Robot Path 🤖
+              </button>
 
-            <button
-              onClick={() => setCurrentView('sorting')}
-              style={{
-                background: 'linear-gradient(135deg, var(--color-secondary), var(--color-success))',
-                color: 'white',
-                padding: '1.5rem 3rem',
-                borderRadius: 'var(--button-radius)',
-                fontSize: '2rem',
-                fontWeight: 'bold',
-                boxShadow: '0 10px 20px rgba(0,0,0,0.3)',
-                transition: 'transform 0.2s',
-              }}
-              onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
-              onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-            >
-              Sorter 📦
-            </button>
-          </div>
+              <button
+                onClick={() => setCurrentView('sorting')}
+                style={{
+                  background: 'linear-gradient(135deg, var(--color-secondary), var(--color-success))',
+                  color: 'white',
+                  padding: '1.5rem 3rem',
+                  borderRadius: 'var(--button-radius)',
+                  fontSize: '2rem',
+                  fontWeight: 'bold',
+                  boxShadow: '0 10px 20px rgba(0,0,0,0.3)',
+                  transition: 'transform 0.2s',
+                }}
+                onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
+                onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              >
+                Sorter 📦
+              </button>
+            </div>
+          )}
 
           <style>{`
             @keyframes float {
