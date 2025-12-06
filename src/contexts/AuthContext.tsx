@@ -33,8 +33,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const signInWithGoogle = async () => {
         try {
             await signInWithPopup(auth, googleProvider);
-        } catch (error) {
+        } catch (error: any) {
             console.error("Error signing in with Google", error);
+            alert(`Sign In Failed: ${error.message}\n\nPlease check if 'bodhi-games.web.app' is in Firebase Console > Authentication > Settings > Authorized Domains.`);
         }
     };
 
