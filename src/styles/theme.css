@@ -1,0 +1,35 @@
+:root {
+  /* Colors */
+  --color-background: #1a0b2e; /* Deep purple space background */
+  --color-primary: #ff007a; /* Neon Pink */
+  --color-secondary: #4361ee; /* Bright Blue */
+  --color-accent: #f72585; /* Another Pink/Red */
+  --color-success: #4cc9f0; /* Light Blue/Cyan */
+  --color-warning: #fca311; /* Orange */
+  --color-text: #ffffff;
+  --color-text-muted: #b8c1ec;
+
+  /* Typography */
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-size-base: 18px; /* Larger base font for kids */
+  --font-size-heading: 3rem;
+
+  /* Spacing */
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 4rem;
+
+  /* UI */
+  --curved-radius: 20px;
+  --button-radius: 50px;
+  --game-board-radius: 12px;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  overflow: hidden; /* Prevent scrolling for app-like feel on iPad */
+  touch-action: none; /* Prevent browser gestures */
+}

@@ -1,0 +1,155 @@
+/* Board Styles */
+.gridBoard {
+    display: grid;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: var(--game-board-radius);
+    width: fit-content;
+    border: 4px solid var(--color-text-muted);
+}
+
+.cell {
+    width: 70px;
+    height: 70px;
+    background: rgba(26, 11, 46, 0.8);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+}
+
+.cell.active {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Robot & Goal */
+.robot {
+    width: 80%;
+    height: 80%;
+    background-image: url('../../../assets/images/robot.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: all 0.5s ease-in-out;
+    z-index: 2;
+}
+
+.goal {
+    font-size: 2.5rem;
+    filter: drop-shadow(0 0 10px var(--color-warning));
+    animation: pulse 2s infinite;
+}
+
+/* Command Palette */
+.palette {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--curved-radius);
+    justify-content: center;
+}
+
+.commandBtn {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    background: white;
+    color: var(--color-background);
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 0 #ccc;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.commandBtn:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 #ccc;
+}
+
+/* Sequence List */
+.sequenceList {
+    display: flex;
+    gap: 0.5rem;
+    min-height: 60px;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--curved-radius);
+    overflow-x: auto;
+    max-width: 100%;
+    align-items: center;
+}
+
+.sequenceItem {
+    width: 40px;
+    height: 40px;
+    background: var(--color-primary);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.sequenceItem.active {
+    background: var(--color-success);
+    transform: scale(1.1);
+    box-shadow: 0 0 10px var(--color-success);
+}
+
+.controls {
+    display: flex;
+    gap: 1rem;
+}
+
+.playBtn {
+    background: var(--color-success);
+    color: var(--color-background);
+    font-weight: bold;
+    padding: 1rem 2rem;
+    border-radius: var(--button-radius);
+    font-size: 1.2rem;
+    box-shadow: 0 4px 0 #38a3c5;
+}
+
+.resetBtn {
+    background: var(--color-accent);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: var(--button-radius);
+    font-size: 1.2rem;
+    box-shadow: 0 4px 0 #bd1f66;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}

@@ -1,0 +1,28 @@
+@import './theme.css';
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+    width: 100%;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Scrollbar hide for clean look */
+::-webkit-scrollbar {
+    display: none;
+}
