@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './LandingPage.module.css';
 import { useAuth } from '../contexts/AuthContext';
-import robotImg from '../assets/robot.png';
+import robotImg from '../assets/images/robot.png';
 
 interface LandingPageProps {
     onNavigate: (view: 'sequencing' | 'sorting') => void;
