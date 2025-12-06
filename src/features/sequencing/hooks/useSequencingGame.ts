@@ -69,6 +69,18 @@ export const useSequencingGame = () => {
     // Game Loop
     const stepRef = useRef(0);
 
+    // Calculate Ghost Position (Preview)
+    const ghostPos = (() => {
+        let { x, y } = { x: 0, y: 0 }; // Assume starting at 0,0 for Level 1
+        for (const cmd of gameState.sequence) {
+            if (cmd === 'up') y = Math.max(0, y - 1);
+            if (cmd === 'down') y = Math.min(gameState.gridSize - 1, y + 1);
+            if (cmd === 'left') x = Math.max(0, x - 1);
+            if (cmd === 'right') x = Math.min(gameState.gridSize - 1, x + 1);
+        }
+        return { x, y };
+    })();
+
     useEffect(() => {
         if (!gameState.isPlaying || gameState.isWon) return;
 
@@ -114,6 +126,7 @@ export const useSequencingGame = () => {
 
     return {
         gameState,
+        ghostPos,
         addCommand,
         removeCommand,
         clearSequence,

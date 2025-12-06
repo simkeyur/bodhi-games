@@ -11,6 +11,7 @@ interface SequencingGameProps {
 export const SequencingGame: React.FC<SequencingGameProps> = ({ onBack }) => {
     const {
         gameState,
+        ghostPos,
         addCommand,
         removeCommand,
         runSequence,
@@ -47,6 +48,7 @@ export const SequencingGame: React.FC<SequencingGameProps> = ({ onBack }) => {
                 <GridBoard
                     size={gameState.gridSize}
                     robotPos={gameState.robotPos}
+                    ghostPos={ghostPos}
                     goalPos={gameState.goalPos}
                 />
             </div>
