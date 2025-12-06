@@ -17,26 +17,20 @@
     /* Default to flex for easy centering */
 }
 
-/* Landscape Hint - Only show on portrait mobile/tablet */
-.landscapeHint {
-    display: none;
-    position: absolute;
+/* Scanlines Effect */
+.scanlines {
+    position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(26, 11, 46, 0.95);
-    z-index: 1000;
-    color: white;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
-    flex-direction: column;
-    text-align: center;
-}
-
-@media screen and (orientation: portrait) and (max-width: 1024px) {
-    .landscapeHint {
-        display: flex;
-    }
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0),
+            rgba(255, 255, 255, 0) 50%,
+            rgba(0, 0, 0, 0.1) 50%,
+            rgba(0, 0, 0, 0.1));
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0.3;
 }

@@ -23,6 +23,29 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
         setEmojis(newEmojis);
     }, []);
 
+    const [installPrompt, setInstallPrompt] = useState<any>(null);
+
+    useEffect(() => {
+        const handleBeforeInstallPrompt = (e: any) => {
+            e.preventDefault();
+            setInstallPrompt(e);
+        };
+
+        window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+        return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    }, []);
+
+    const handleInstallClick = () => {
+        if (!installPrompt) return;
+        installPrompt.prompt();
+        installPrompt.userChoice.then((choiceResult: any) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the install prompt');
+            }
+            setInstallPrompt(null);
+        });
+    };
+
     return (
         <div className={styles.landingContainer}>
             {/* Background Layer */}
@@ -56,6 +79,26 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             <div className={styles.content}>
                 <h1 className={styles.heroTitle}>Bodhi Games</h1>
                 <img src={robotImg} alt="Robot Friend" className={styles.heroImage} />
+
+                {/* PWA Install Button */}
+                {installPrompt && (
+                    <button
+                        onClick={handleInstallClick}
+                        style={{
+                            marginBottom: '1rem',
+                            background: '#ff0055',
+                            color: 'white',
+                            border: 'none',
+                            padding: '0.5rem 1rem',
+                            borderRadius: '20px',
+                            cursor: 'pointer',
+                            fontWeight: 'bold',
+                            boxShadow: '0 4px 10px rgba(0,0,0,0.3)'
+                        }}
+                    >
+                        📲 Install App
+                    </button>
+                )}
 
                 {!user ? (
                     <div className={styles.gateContainer}>

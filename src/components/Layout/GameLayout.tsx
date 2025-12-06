@@ -6,14 +6,11 @@ interface GameLayoutProps {
 }
 
 export const GameLayout: React.FC<GameLayoutProps> = ({ children }) => {
+    // Rotation check removed as per user request
     return (
-        <div className={styles.container}>
-            <div className={styles.landscapeHint}>
-                Please rotate your device 🔄
-            </div>
-            <main className={styles.gameContent}>
-                {children}
-            </main>
+        <div className={styles.gameContainer}>
+            {children}
+            <div className={styles.scanlines} />
         </div>
     );
 };
