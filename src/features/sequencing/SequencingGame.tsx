@@ -81,7 +81,7 @@ export const SequencingGame: React.FC<SequencingGameProps> = () => {
             height: '100%',
             width: '100%',
             padding: '1rem',
-            paddingTop: 'calc(60px + env(safe-area-inset-top))', /* Account for Navbar */
+            paddingTop: 'calc(100px + env(safe-area-inset-top))', /* Account for Navbar */
             alignItems: 'center',
             color: 'white',
             overflow: 'hidden' /* Prevent scrolling if possible */
