@@ -74,7 +74,7 @@ export const EmojiEquatorGame: React.FC<EmojiEquatorGameProps> = ({ onBack }) =>
             ) : config ? (
                 <>
                     <div className={styles.board}>
-                        {config.equations.map((eq, i) => (
+                        {config.equations.map((eq: string, i: number) => (
                             <div key={i} className={styles.equation}>
                                 {eq}
                             </div>
@@ -85,7 +85,7 @@ export const EmojiEquatorGame: React.FC<EmojiEquatorGameProps> = ({ onBack }) =>
                     </div>
 
                     <div className={styles.optionsGrid}>
-                        {config.options.map((opt, i) => {
+                        {config.options.map((opt: number, i: number) => {
                             let btnStyle = styles.optionBtn;
                             if (selectedAnswer === opt) {
                                 btnStyle += opt === config.correctAnswer ? ` ${styles.correct}` : ` ${styles.incorrect}`;

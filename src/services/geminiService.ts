@@ -209,3 +209,63 @@ export const generateOddOneOut = async (): Promise<OddOneOutConfig> => {
         };
     }
 };
+
+// Emoji Equator Configuration
+export interface EmojiEquatorConfig {
+    equations: string[]; // e.g., ["🍎 + 🍎 = 10", "🍎 + 🍌 = 8"]
+    question: string;    // e.g., "🍌 = ?"
+    options: number[];   // e.g., [3, 4, 5, 2]
+    correctAnswer: number;
+    explanation: string;
+}
+
+export const generateEmojiEquator = async (): Promise<EmojiEquatorConfig> => {
+    // Offline fallback
+    if (!genAI) {
+        return {
+            equations: ["🍎 + 🍎 = 10", "🍎 + 🍌 = 8"],
+            question: "🍌 = ?",
+            options: [2, 3, 4, 5],
+            correctAnswer: 3,
+            explanation: "Since 🍎 + 🍎 = 10, 🍎 is 5. Then 5 + 🍌 = 8, so 🍌 must be 3!"
+        };
+    }
+
+    try {
+        const model = genAI.getGenerativeModel({ model: "gemma-3-27b-it" });
+        
+        // Prompt for simple visual algebra
+        const prompt = `
+        Create a simple "Visual Algebra" puzzle for a 6-year-old using Emojis as variables.
+        Rules:
+        1. Use whole numbers.
+        2. Keep numbers small (sums under 20).
+        3. Two equations to solve for two variables.
+        4. Provide 4 multiple choice options for the second variable.
+
+        Output JSON format:
+        {
+            "equations": ["Equation 1 (e.g. 🦊 + 🦊 = 6)", "Equation 2 (e.g. 🦊 + 🐸 = 10)"],
+            "question": "Final Question (e.g. 🐸 = ?)",
+            "options": [number, number, number, number],
+            "correctAnswer": number,
+            "explanation": "Simple step-by-step logic."
+        }
+        `;
+
+        const result = await model.generateContent(prompt);
+        const text = result.response.text();
+        const jsonStr = text.replace(/```json/g, '').replace(/```/g, '').trim();
+        return JSON.parse(jsonStr) as EmojiEquatorConfig;
+
+    } catch (error) {
+        console.error("Emoji Equator error:", error);
+        return {
+            equations: ["⭐ + ⭐ = 4", "⭐ + 🌙 = 5"],
+            question: "🌙 = ?",
+            options: [1, 2, 3, 4],
+            correctAnswer: 3,
+            explanation: "Star is 2. 2 + Moon = 5, so Moon is 3."
+        };
+    }
+};
