@@ -112,20 +112,33 @@ export const useSequencingGame = () => {
                     if (nextStep < prev.sequence.length) {
                         const cmd = prev.sequence[nextStep];
                         let { x, y } = prev.robotPos;
+                        let hitWall = false;
 
-                        if (cmd === 'up') y = Math.max(0, y - 1);
-                        if (cmd === 'down') y = Math.min(prev.gridSize - 1, y + 1);
-                        if (cmd === 'left') x = Math.max(0, x - 1);
-                        if (cmd === 'right') x = Math.min(prev.gridSize - 1, x + 1);
+                        if (cmd === 'up') {
+                            if (y > 0) y--;
+                            else hitWall = true;
+                        }
+                        if (cmd === 'down') {
+                            if (y < prev.gridSize - 1) y++;
+                            else hitWall = true;
+                        }
+                        if (cmd === 'left') {
+                            if (x > 0) x--;
+                            else hitWall = true;
+                        }
+                        if (cmd === 'right') {
+                            if (x < prev.gridSize - 1) x++;
+                            else hitWall = true;
+                        }
 
-                        // Check Obstacle Collision
+                        // Check Obstacle Collision OR Wall Hit
                         const hitObstacle = prev.obstacles.some(obs => obs.x === x && obs.y === y);
 
-                        if (hitObstacle) {
+                        if (hitObstacle || hitWall) {
                             if (intervalRef.current) clearInterval(intervalRef.current);
                             return {
                                 ...prev,
-                                robotPos: { x, y },
+                                robotPos: { x, y }, // Show where they crashed (or at wall)
                                 currentStepIndex: nextStep,
                                 isPlaying: false,
                                 isFailed: true

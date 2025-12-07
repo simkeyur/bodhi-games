@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { GridBoard, CommandPalette, SequenceList } from './components/GameComponents';
 import { useSequencingGame } from './hooks/useSequencingGame';
 import styles from './components/SequencingStyles.module.css';
@@ -39,6 +39,13 @@ export const SequencingGame: React.FC<SequencingGameProps> = () => {
     React.useEffect(() => {
         localStorage.setItem('robot_game_level', level.toString());
     }, [level]);
+
+    useEffect(() => {
+        // Load initial level if > 1
+        if (level > 1) {
+            changeLevel(level);
+        }
+    }, []); // Run once on mount
 
     const changeLevel = async (newLevel: number) => {
         if (newLevel < 1) return;
