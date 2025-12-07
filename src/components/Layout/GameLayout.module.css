@@ -84,10 +84,18 @@
     box-shadow: none;
 }
 
+/* Profile Interactive Styles */
+.profileWrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .profileBadge {
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(5px);
-    padding: 5px 10px;
+    padding: 5px 15px 5px 5px;
+    /* More padding right for text */
     border-radius: 50px;
     display: flex;
     align-items: center;
@@ -95,6 +103,37 @@
     color: white;
     font-weight: bold;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.profileBadge:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.clickableGuest {
+    border-color: #ffd700;
+    /* Gold hint for action */
+}
+
+.logoutBtnNew {
+    background: #ff4757;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.logoutBtnNew:hover {
+    transform: scale(1.1);
+    background: #ff6b81;
 }
 
 .avatar,
@@ -112,17 +151,22 @@
     font-size: 1.2rem;
 }
 
-.logoutBtn {
-    background: transparent;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    padding: 0 5px;
-}
-
+/* Old logout removed */
 .navName {
     font-size: 0.9rem;
     white-space: nowrap;
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 /* Global Background & Floating Emojis */
