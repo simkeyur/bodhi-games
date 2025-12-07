@@ -6,6 +6,7 @@ interface AuthContextType {
     user: User | null;
     loading: boolean;
     signInWithGoogle: () => Promise<void>;
+    enableGuestMode: () => void;
     logout: () => Promise<void>;
 }
 
@@ -13,6 +14,7 @@ const AuthContext = createContext<AuthContextType>({
     user: null,
     loading: true,
     signInWithGoogle: async () => { },
+    enableGuestMode: () => { },
     logout: async () => { },
 });
 
@@ -39,8 +41,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
     };
 
+    const enableGuestMode = () => {
+        localStorage.setItem('guestMode', 'true');
+        // Force re-render or handle via local state if needed elsewhere
+        // But for LandingPage logic, checking localStorage is enough
+        // Ideally we'd wrap this better, but for "Remove Google Auth locally", this suffices
+        window.location.reload();
+    };
+
     const logout = async () => {
         try {
+            localStorage.removeItem('guestMode');
             await signOut(auth);
         } catch (error) {
             console.error("Error signing out", error);
@@ -48,7 +59,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     };
 
     return (
-        <AuthContext.Provider value={{ user, loading, signInWithGoogle, logout }}>
+        <AuthContext.Provider value={{ user, loading, signInWithGoogle, enableGuestMode, logout }}>
             {!loading && children}
         </AuthContext.Provider>
     );

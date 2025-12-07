@@ -8,7 +8,7 @@ const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<'home' | 'sequencing' | 'sorting'>('home');
 
   return (
-    <GameLayout>
+    <GameLayout currentView={currentView} onNavigateHome={() => setCurrentView('home')}>
       {currentView === 'home' && (
         <LandingPage onNavigate={setCurrentView} />
       )}

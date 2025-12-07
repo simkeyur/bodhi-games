@@ -34,3 +34,102 @@
     z-index: 50;
     opacity: 0.3;
 }
+
+/* Navbar */
+.navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: max(10px, env(safe-area-inset-top)) 20px 10px;
+    z-index: 100;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
+    pointer-events: none;
+    /* Let clicks pass through empty space */
+}
+
+.navLeft,
+.navRight {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    pointer-events: auto;
+}
+
+.navRight {
+    justify-content: flex-end;
+}
+
+.navCenter {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+}
+
+.navTitle {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    color: white;
+    font-size: 1.5rem;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    opacity: 0.8;
+}
+
+.navButton {
+    background: white;
+    border: none;
+    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #ccc;
+    transition: transform 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navButton:active {
+    transform: translateY(4px);
+    box-shadow: none;
+}
+
+.profileBadge {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    padding: 5px 10px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-weight: bold;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.avatar,
+.avatarPlaceholder {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.avatarPlaceholder {
+    background: #6c5ce7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.logoutBtn {
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0 5px;
+}

@@ -8,7 +8,7 @@ interface LandingPageProps {
 }
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
-    const { user, signInWithGoogle, logout } = useAuth();
+    const { user, signInWithGoogle, enableGuestMode } = useAuth();
     const [emojis, setEmojis] = useState<{ id: number, char: string, left: string, delay: string }[]>([]);
 
     useEffect(() => {
@@ -61,19 +61,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                 ))}
             </div>
 
-            {/* User Badge */}
-            {user && (
-                <div className={styles.userBadge}>
-                    {user.photoURL && <img src={user.photoURL} alt="User" style={{ width: 30, height: 30, borderRadius: '50%' }} />}
-                    <span>{user.displayName?.split(' ')[0]}</span>
-                    <button
-                        onClick={() => logout()}
-                        style={{ background: 'transparent', border: '1px solid white', color: 'white', borderRadius: '20px', padding: '0.2rem 0.5rem', cursor: 'pointer' }}
-                    >
-                        Sign Out
-                    </button>
-                </div>
-            )}
+            {/* User Badge removed - Moved to Navbar */}
 
             {/* Main Content */}
             <div className={styles.content}>
@@ -100,11 +88,25 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                     </button>
                 )}
 
-                {!user ? (
+                {!user && localStorage.getItem('guestMode') !== 'true' ? (
                     <div className={styles.gateContainer}>
                         <h2 style={{ marginBottom: '1rem' }}>Parents, unlock the fun! 🔐</h2>
                         <button className={styles.authButton} onClick={signInWithGoogle}>
                             <span style={{ fontSize: '1.5rem' }}>G</span> Sign In with Google
+                        </button>
+                        <button
+                            onClick={enableGuestMode}
+                            style={{
+                                marginTop: '1rem',
+                                background: 'transparent',
+                                border: '1px solid rgba(255,255,255,0.3)',
+                                color: 'rgba(255,255,255,0.7)',
+                                padding: '0.5rem 1rem',
+                                borderRadius: '20px',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            Explore as Guest 🚀
                         </button>
                     </div>
                 ) : (
