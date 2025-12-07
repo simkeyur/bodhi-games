@@ -81,92 +81,96 @@ export const SequencingGame: React.FC<SequencingGameProps> = () => {
             height: '100%',
             width: '100%',
             padding: '1rem',
-            paddingTop: 'calc(80px + env(safe-area-inset-top))', /* Account for Navbar */
+            paddingTop: 'calc(60px + env(safe-area-inset-top))', /* Account for Navbar */
             alignItems: 'center',
-            gap: '1rem',
-            color: 'white'
+            color: 'white',
+            overflow: 'hidden' /* Prevent scrolling if possible */
         }}>
+
+            {/* TOP: Level Indicator */}
+            <div style={{
+                flex: '0 0 auto',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '4px',
+                zIndex: 10,
+                marginBottom: '10px'
+            }}>
+                <div style={{
+                    background: 'rgba(255,255,255,0.1)',
+                    padding: '5px 15px',
+                    borderRadius: '20px',
+                    fontSize: '0.9rem',
+                    fontWeight: 'bold',
+                    color: '#ffd700',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px'
+                }}>
+                    {level > 1 && (
+                        <button
+                            onClick={() => changeLevel(level - 1)}
+                            style={{
+                                background: 'none',
+                                border: 'none',
+                                color: 'white',
+                                cursor: 'pointer',
+                                fontSize: '1.2rem', // Increased touch target
+                                padding: '5px 10px'
+                            }}
+                            title="Previous Level"
+                        >
+                            ◀
+                        </button>
+                    )}
+                    LEVEL {level}
+                </div>
+                {gameState.isAiGenerated !== undefined && (
+                    <div style={{
+                        background: gameState.isAiGenerated ? 'rgba(100, 200, 255, 0.2)' : 'rgba(255, 100, 100, 0.2)',
+                        padding: '2px 10px',
+                        borderRadius: '12px',
+                        fontSize: '0.7rem',
+                        color: gameState.isAiGenerated ? '#00d2ff' : '#ffaaaa',
+                        border: `1px solid ${gameState.isAiGenerated ? 'rgba(0, 210, 255, 0.3)' : 'rgba(255, 170, 170, 0.3)'}`
+                    }}>
+                        {gameState.isAiGenerated ? '✨ AI Generated' : '🛠️ Manual Level'}
+                    </div>
+                )}
+            </div>
+
+            {/* MIDDLE: Grid Board & Overlays */}
             <div style={{
                 flex: 1,
                 display: 'flex',
-                flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
-                position: 'relative'
+                position: 'relative',
+                width: '100%',
+                maxHeight: '60vh' // Ensure grid doesn't squash controls
             }}>
-                {/* Level Indicator */}
-                <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: '4px'
-                }}>
-                    <div style={{
-                        background: 'rgba(255,255,255,0.1)',
-                        padding: '5px 15px',
-                        borderRadius: '20px',
-                        fontSize: '0.9rem',
-                        fontWeight: 'bold',
-                        color: '#ffd700',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '10px'
-                    }}>
-                        {level > 1 && (
-                            <button
-                                onClick={() => changeLevel(level - 1)}
-                                style={{
-                                    background: 'none',
-                                    border: 'none',
-                                    color: 'white',
-                                    cursor: 'pointer',
-                                    fontSize: '1.2rem',
-                                    padding: '0 5px'
-                                }}
-                                title="Previous Level"
-                            >
-                                ◀
-                            </button>
-                        )}
-                        LEVEL {level}
-                        {gameState.isAiGenerated !== undefined && (
-                            <div style={{
-                                background: gameState.isAiGenerated ? 'rgba(100, 200, 255, 0.2)' : 'rgba(255, 100, 100, 0.2)',
-                                padding: '2px 10px',
-                                borderRadius: '12px',
-                                fontSize: '0.7rem',
-                                color: gameState.isAiGenerated ? '#00d2ff' : '#ffaaaa',
-                                border: `1px solid ${gameState.isAiGenerated ? 'rgba(0, 210, 255, 0.3)' : 'rgba(255, 170, 170, 0.3)'}`
-                            }}>
-                                {gameState.isAiGenerated ? '✨ AI Generated' : '🛠️ Manual Level'}
-                            </div>
-                        )}
-                    </div>
+                <GridBoard
+                    size={gameState.gridSize}
+                    robotPos={gameState.robotPos}
+                    ghostPos={level <= 2 ? ghostPos : undefined}
+                    goalPos={gameState.goalPos}
+                    obstacles={gameState.obstacles}
+                />
 
-                    <GridBoard
-                        size={gameState.gridSize}
-                        robotPos={gameState.robotPos}
-                        ghostPos={level <= 2 ? ghostPos : undefined}
-                        goalPos={gameState.goalPos}
-                        obstacles={gameState.obstacles}
-                    />
-                </div>
-
-                {/* AI Loading State */}
+                {/* Overlays aligned to this middle section */}
                 {isLoading && (
                     <div style={{
                         position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
+                        inset: 0,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                         background: 'rgba(0,0,0,0.85)',
-                        padding: '2rem',
-                        borderRadius: '20px',
-                        textAlign: 'center',
-                        zIndex: 100,
-                        backdropFilter: 'blur(5px)'
+                        zIndex: 20,
+                        backdropFilter: 'blur(5px)',
+                        borderRadius: '20px'
                     }}>
                         <div style={{ fontSize: '3rem', animation: 'spin 1s linear infinite' }}>🤖</div>
                         <p style={{ marginTop: '1rem', color: '#00d2ff' }}>{aiMessage}</p>
@@ -179,15 +183,16 @@ export const SequencingGame: React.FC<SequencingGameProps> = () => {
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
-                        background: 'rgba(0,0,0,0.9)',
+                        background: 'rgba(0,0,0,0.95)',
                         padding: '2rem',
                         borderRadius: '20px',
                         textAlign: 'center',
-                        zIndex: 100,
-                        border: '4px solid gold'
+                        zIndex: 20,
+                        border: '4px solid gold',
+                        minWidth: '300px'
                     }}>
-                        <h2 style={{ fontSize: '3rem', color: 'gold' }}>YOU WON! 🌟</h2>
-                        <p style={{ fontSize: '1.2rem', marginBottom: '1.5rem' }}>{aiMessage || "Great job programming!"}</p>
+                        <h2 style={{ fontSize: '3rem', color: 'gold', margin: 0 }}>YOU WON! 🌟</h2>
+                        <p style={{ fontSize: '1.2rem', marginBottom: '1.5rem', color: '#ddd' }}>{aiMessage || "Great job!"}</p>
 
                         <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
                             <button
@@ -219,15 +224,16 @@ export const SequencingGame: React.FC<SequencingGameProps> = () => {
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
-                        background: 'rgba(0,0,0,0.9)',
+                        background: 'rgba(0,0,0,0.95)',
                         padding: '2rem',
                         borderRadius: '20px',
                         textAlign: 'center',
-                        zIndex: 100,
-                        border: '4px solid #ff0055'
+                        zIndex: 20,
+                        border: '4px solid #ff0055',
+                        minWidth: '300px'
                     }}>
-                        <h2 style={{ fontSize: '3rem', color: '#ff0055' }}>CRASH! 💥</h2>
-                        <p style={{ fontSize: '1.2rem', marginBottom: '1.5rem' }}>Watch out for space rocks!</p>
+                        <h2 style={{ fontSize: '3rem', color: '#ff0055', margin: 0 }}>CRASH! 💥</h2>
+                        <p style={{ fontSize: '1.2rem', marginBottom: '1.5rem', color: '#ddd' }}>Watch out for space rocks!</p>
 
                         <button
                             onClick={clearSequence}
@@ -238,40 +244,44 @@ export const SequencingGame: React.FC<SequencingGameProps> = () => {
                         </button>
                     </div>
                 )}
+            </div>
 
-                <div style={{
-                    width: '100%',
-                    maxWidth: '800px',
-                    background: 'rgba(255,255,255,0.05)',
-                    padding: '1rem',
-                    borderRadius: '20px'
-                }}>
-                    <div style={{ marginBottom: '1rem', display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                        <SequenceList
-                            sequence={gameState.sequence}
-                            onRemove={removeCommand}
-                            activeIndex={gameState.currentStepIndex}
-                        />
-                        <div className={styles.controls}>
-                            {!gameState.isPlaying ? (
-                                <button className={styles.playBtn} onClick={runSequence} disabled={gameState.sequence.length === 0}>
-                                    GO ▶
-                                </button>
-                            ) : (
-                                <button className={styles.resetBtn} onClick={resetGame}>
-                                    ⏹
-                                </button>
-                            )}
-                        </div>
+            {/* BOTTOM: Controls */}
+            <div style={{
+                flex: '0 0 auto',
+                width: '100%',
+                maxWidth: '600px', // Constrain width for cleaner look
+                background: 'rgba(255,255,255,0.05)',
+                padding: '1rem',
+                borderRadius: '20px 20px 0 0', // Rounded top only implies bottom sheet feel
+                marginTop: 'auto', // Push to bottom if space allows
+                backdropFilter: 'blur(10px)'
+            }}>
+                <div style={{ marginBottom: '1rem', display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                    <SequenceList
+                        sequence={gameState.sequence}
+                        onRemove={removeCommand}
+                        activeIndex={gameState.currentStepIndex}
+                    />
+                    <div className={styles.controls}>
+                        {!gameState.isPlaying ? (
+                            <button className={styles.playBtn} onClick={runSequence} disabled={gameState.sequence.length === 0}>
+                                GO ▶
+                            </button>
+                        ) : (
+                            <button className={styles.resetBtn} onClick={resetGame}>
+                                ⏹
+                            </button>
+                        )}
                     </div>
-
-                    <CommandPalette onAdd={addCommand} />
                 </div>
 
-                <style>{`
-                    @keyframes spin { 100% { transform: rotate(360deg); } }
-                `}</style>
+                <CommandPalette onAdd={addCommand} />
             </div>
+
+            <style>{`
+                @keyframes spin { 100% { transform: rotate(360deg); } }
+            `}</style>
         </div>
     );
 };
