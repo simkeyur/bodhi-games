@@ -40,7 +40,6 @@ export const GameLayout: React.FC<GameLayoutProps> = ({ children, currentView, o
 
             <Navbar currentView={currentView} onNavigateHome={onNavigateHome} />
             {children}
-            <div className={styles.scanlines} />
         </div>
     );
 };
