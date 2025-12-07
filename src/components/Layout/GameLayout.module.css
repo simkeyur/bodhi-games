@@ -105,6 +105,9 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     cursor: pointer;
     transition: background 0.2s;
+    pointer-events: auto;
+    /* Ensure clickable */
+    user-select: none;
 }
 
 .profileBadge:hover {

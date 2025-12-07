@@ -16,11 +16,15 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigateHome }) =
     const isGuest = !user && localStorage.getItem('guestMode') === 'true';
     const displayName = user?.displayName?.split(' ')[0] || (isGuest ? 'Guest' : null);
 
-    const handleProfileClick = () => {
+    const handleProfileClick = (e: React.MouseEvent) => {
+        e.preventDefault(); // Prevent bubbling issues
+        e.stopPropagation();
+
+        console.log("Profile clicked. isGuest:", isGuest);
+
         if (isGuest) {
-            // "Offer to login" - directly trigger sign in
-            const confirmLogin = window.confirm("Do you want to sign in with Google to save your progress?");
-            if (confirmLogin) {
+            // "Offer to login"
+            if (window.confirm("👋 Ready to leave Guest Mode?\n\nSign in with Google to save your high scores! 🏆")) {
                 signInWithGoogle();
             }
         } else {
