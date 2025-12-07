@@ -262,8 +262,9 @@ export const SequencingGame: React.FC<SequencingGameProps> = () => {
                 </div>
 
                 <style>{`
-                @keyframes spin { 100% { transform: rotate(360deg); } }
-            `}</style>
+                    @keyframes spin { 100% { transform: rotate(360deg); } }
+                `}</style>
             </div>
-            );
+        </div>
+    );
 };
