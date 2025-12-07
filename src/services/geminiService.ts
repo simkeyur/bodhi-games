@@ -31,8 +31,8 @@ export const generateLevel = async (levelNumber: number): Promise<LevelConfig> =
     }
 
     try {
-        // Use gemma-2-27b-it as requested
-        const model = genAI.getGenerativeModel({ model: "gemma-2-27b-it" });
+        // Use gemma-3-27b-it as discovered via API
+        const model = genAI.getGenerativeModel({ model: "gemma-3-27b-it" });
 
         const difficulty = levelNumber <= 3 ? "easy" : levelNumber <= 6 ? "medium" : "hard";
 
