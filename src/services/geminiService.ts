@@ -4,10 +4,11 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
 if (!API_KEY) {
-    console.warn("Gemini API Key is missing! Check .env file.");
+    console.warn("Gemini API Key is missing! Restart the dev server if you just added .env.");
 }
 
-const genAI = new GoogleGenerativeAI(API_KEY);
+// Only init if key exists to avoid errors
+const genAI = API_KEY ? new GoogleGenerativeAI(API_KEY) : null;
 
 export interface LevelConfig {
     gridSize: number;
@@ -18,6 +19,17 @@ export interface LevelConfig {
 }
 
 export const generateLevel = async (levelNumber: number): Promise<LevelConfig> => {
+    // Immediate fallback if no key
+    if (!genAI) {
+        console.error("Gemini API not initialized.");
+        return {
+            gridSize: 4,
+            robotPos: { x: 0, y: 0 },
+            goalPos: { x: 2, y: 2 },
+            message: "AI Offline: Using offline level. Restart server to fix!"
+        };
+    }
+
     try {
         // Use gemma-2-27b-it as requested
         const model = genAI.getGenerativeModel({ model: "gemma-2-27b-it" });

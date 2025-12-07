@@ -92,31 +92,32 @@ export const useSequencingGame = () => {
                 setGameState(prev => {
                     const currentStep = stepRef.current;
 
-                    if (currentStep >= prev.sequence.length) {
+                    // Execute move
+                    if (currentStep < prev.sequence.length) {
+                        const cmd = prev.sequence[currentStep];
+                        let { x, y } = prev.robotPos;
+
+                        if (cmd === 'up') y = Math.max(0, y - 1);
+                        if (cmd === 'down') y = Math.min(prev.gridSize - 1, y + 1);
+                        if (cmd === 'left') x = Math.max(0, x - 1);
+                        if (cmd === 'right') x = Math.min(prev.gridSize - 1, x + 1);
+
+                        // Increment for next tick
+                        stepRef.current++;
+
+                        return {
+                            ...prev,
+                            robotPos: { x, y },
+                            currentStepIndex: currentStep
+                        };
+                    } else {
+                        // Sequence finished
                         clearInterval(interval);
-                        // Check win condition based on FINAL position after last move
                         const won = prev.robotPos.x === prev.goalPos.x && prev.robotPos.y === prev.goalPos.y;
                         return { ...prev, isPlaying: false, isWon: won, currentStepIndex: -1 };
                     }
-
-                    const cmd = prev.sequence[currentStep];
-                    let { x, y } = prev.robotPos;
-
-                    // Move logic
-                    if (cmd === 'up') y = Math.max(0, y - 1);
-                    if (cmd === 'down') y = Math.min(prev.gridSize - 1, y + 1);
-                    if (cmd === 'left') x = Math.max(0, x - 1);
-                    if (cmd === 'right') x = Math.min(prev.gridSize - 1, x + 1);
-
-                    stepRef.current++; // Increment for next tick
-
-                    return {
-                        ...prev,
-                        robotPos: { x, y },
-                        currentStepIndex: currentStep
-                    };
                 });
-            }, 600); // Faster 600ms per step
+            }, 600);
 
             return () => clearInterval(interval);
         }, 500); // 500ms initial pause
