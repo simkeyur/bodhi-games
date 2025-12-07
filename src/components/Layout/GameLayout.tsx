@@ -14,11 +14,14 @@ export const GameLayout: React.FC<GameLayoutProps> = ({ children, currentView, o
     React.useEffect(() => {
         // Generate random floating emojis for background
         const emojiList = ['🚀', '⭐', '🪐', '👾', '🛸', '🌌', '🌑', '🌠'];
-        const newEmojis = Array.from({ length: 20 }).map((_, i) => ({
+        // Reduce count to 6 for sparse look (user requested ~5 at a time)
+        const newEmojis = Array.from({ length: 6 }).map((_, i) => ({
             id: i,
             char: emojiList[Math.floor(Math.random() * emojiList.length)],
             left: `${Math.random() * 100}%`,
-            delay: `${Math.random() * 5}s`
+            // Use negative delay to distribute them vertically immediately
+            // Range matches the 20s animation duration in CSS
+            delay: `-${Math.random() * 20}s`
         }));
         setEmojis(newEmojis);
     }, []);
