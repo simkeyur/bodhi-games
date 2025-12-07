@@ -17,22 +17,25 @@ interface GridBoardProps {
     robotPos: { x: number, y: number };
     ghostPos?: { x: number, y: number };
     goalPos: { x: number, y: number };
+    obstacles?: { x: number, y: number }[];
 }
 
-export const GridBoard: React.FC<GridBoardProps> = ({ size, robotPos, ghostPos, goalPos }) => {
+export const GridBoard: React.FC<GridBoardProps> = ({ size, robotPos, ghostPos, goalPos, obstacles = [] }) => {
     const cells = [];
     for (let y = 0; y < size; y++) {
         for (let x = 0; x < size; x++) {
             const isRobot = robotPos.x === x && robotPos.y === y;
             const isGhost = ghostPos && ghostPos.x === x && ghostPos.y === y && !isRobot;
             const isGoal = goalPos.x === x && goalPos.y === y;
+            const isObstacle = obstacles.some(o => o.x === x && o.y === y);
 
             cells.push(
                 <div key={`${x}-${y}`} className={styles.cell}>
-                    {isGoal && !isRobot && <div className={styles.goal}>{Icons.star}</div>}
+                    {isObstacle && <div className={styles.obstacle}>🪨</div>}
+                    {isGoal && !isRobot && !isObstacle && <div className={styles.goal}>{Icons.star}</div>}
 
                     {/* Ghost Robot (Preview) */}
-                    {isGhost && (
+                    {isGhost && !isObstacle && (
                         <div style={{ opacity: 0.3, transform: 'scale(0.8)', filter: 'grayscale(100%)' }} className={styles.robot} />
                     )}
 
@@ -41,7 +44,7 @@ export const GridBoard: React.FC<GridBoardProps> = ({ size, robotPos, ghostPos, 
                             layoutId="robot"
                             className={styles.robot}
                             initial={false}
-                            animate={{ x: 0, y: 0 }} // Managed by grid position, but motion helps transition
+                            animate={{ x: 0, y: 0 }}
                         />
                     )}
                 </div>

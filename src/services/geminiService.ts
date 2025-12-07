@@ -34,29 +34,38 @@ export const generateLevel = async (levelNumber: number): Promise<LevelConfig> =
         // Use gemma-3-27b-it as discovered via API
         const model = genAI.getGenerativeModel({ model: "gemma-3-27b-it" });
 
-        const difficulty = levelNumber <= 3 ? "easy" : levelNumber <= 6 ? "medium" : "hard";
+        // Progressive Difficulty Logic
+        // Level 1: 4x4, No obstacles
+        // Level 2: 4x4, 1 obstacle
+        // Level 3: 5x5, 2 obstacles
+        // ...
+        // Level 7: 8x8, Many obstacles
+
+        const gridSize = Math.min(8, 4 + Math.floor((levelNumber - 1) / 2));
+        const obstacleCount = Math.max(0, levelNumber - 1);
 
         const prompt = `
         You are a level designer for a grid-based programming game for kids.
         Generate a level configuration in JSON format.
         
-        Current Level: ${levelNumber} (${difficulty})
+        Current Level: ${levelNumber}
+        Target Grid Size: ${gridSize}x${gridSize}
+        Target Obstacles: ${obstacleCount}
         
         Constraints:
-        - Grid Size: 
-          - Easy (Lvl 1-3): 4x4
-          - Medium (Lvl 4-6): 5x5
-          - Hard (Lvl 7+): 6x6
-        - Robot Start: Usually (0,0) or corners.
-        - Goal Position: Must be reachable. Farther away for higher levels.
-        - Output strictly valid JSON. No markdown formatting.
+        - Grid Size: ${gridSize}
+        - Robot Start: (0,0) or corners.
+        - Goal Position: Must be reachable.
+        - Obstacles: Place ${obstacleCount} obstacles at random positions (excluding start/goal).
+        - Message: Engaging text related to Space/Robots.
         
         Response Format:
         {
             "gridSize": number,
             "robotPos": {"x": number, "y": number},
             "goalPos": {"x": number, "y": number},
-            "message": "Short encouraging text for this level"
+            "obstacles": [{"x": number, "y": number}],
+            "message": "Short encouraging text"
         }
         `;
 

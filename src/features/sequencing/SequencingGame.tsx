@@ -96,6 +96,7 @@ export const SequencingGame: React.FC<SequencingGameProps> = () => {
                     robotPos={gameState.robotPos}
                     ghostPos={ghostPos}
                     goalPos={gameState.goalPos}
+                    obstacles={gameState.obstacles}
                 />
             </div>
 
@@ -155,6 +156,32 @@ export const SequencingGame: React.FC<SequencingGameProps> = () => {
                             Next Level ⏩
                         </button>
                     </div>
+                </div>
+            )}
+
+            {gameState.isFailed && !isLoading && (
+                <div style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    background: 'rgba(0,0,0,0.9)',
+                    padding: '2rem',
+                    borderRadius: '20px',
+                    textAlign: 'center',
+                    zIndex: 100,
+                    border: '4px solid #ff0055'
+                }}>
+                    <h2 style={{ fontSize: '3rem', color: '#ff0055' }}>CRASH! 💥</h2>
+                    <p style={{ fontSize: '1.2rem', marginBottom: '1.5rem' }}>Watch out for space rocks!</p>
+
+                    <button
+                        onClick={clearSequence}
+                        className={styles.playBtn}
+                        style={{ background: '#ff0055', boxShadow: '0 0 15px rgba(255, 0, 85, 0.5)' }}
+                    >
+                        Try Again ↩️
+                    </button>
                 </div>
             )}
 
