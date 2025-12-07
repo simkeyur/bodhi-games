@@ -232,31 +232,47 @@ export const generateEmojiEquator = async (): Promise<EmojiEquatorConfig> => {
     }
 
     try {
+        // Step 1: Get Creative Content from AI (Reliable)
         const model = genAI.getGenerativeModel({ model: "gemma-3-27b-it" });
-        
-        // Prompt for simple visual algebra
-        const prompt = `
-        Create a simple "Visual Algebra" puzzle for a 6-year-old using Emojis as variables.
-        Rules:
-        1. Use whole numbers.
-        2. Keep numbers small (sums under 20).
-        3. Two equations to solve for two variables.
-        4. Provide 4 multiple choice options for the second variable.
+        const themes = ["Fruit", "Animals", "Space", "Fast Food", "Sports", "Nature"];
+        const randomTheme = themes[Math.floor(Math.random() * themes.length)];
 
-        Output JSON format:
-        {
-            "equations": ["Equation 1 (e.g. 🦊 + 🦊 = 6)", "Equation 2 (e.g. 🦊 + 🐸 = 10)"],
-            "question": "Final Question (e.g. 🐸 = ?)",
-            "options": [number, number, number, number],
-            "correctAnswer": number,
-            "explanation": "Simple step-by-step logic."
-        }
+        const prompt = `
+        Generate 2 different related Emojis for the theme: "${randomTheme}".
+        Return JSON: { "emoji1": "char", "emoji2": "char" }
         `;
 
         const result = await model.generateContent(prompt);
         const text = result.response.text();
         const jsonStr = text.replace(/```json/g, '').replace(/```/g, '').trim();
-        return JSON.parse(jsonStr) as EmojiEquatorConfig;
+        const content = JSON.parse(jsonStr) as { emoji1: string, emoji2: string };
+
+        // Step 2: Generate Math Logic Programmatically (Infallible)
+        const val1 = Math.floor(Math.random() * 8) + 2; // 2 to 9
+        const val2 = Math.floor(Math.random() * 9) + 1; // 1 to 9 (different from val1 ideally, but ok)
+
+        const sum1 = val1 * 2;
+        const sum2 = val1 + val2;
+
+        const eq1 = `${content.emoji1} + ${content.emoji1} = ${sum1}`;
+        const eq2 = `${content.emoji1} + ${content.emoji2} = ${sum2}`;
+
+        // Generate unique options including correct answer
+        const optionsSet = new Set<number>();
+        optionsSet.add(val2);
+        while (optionsSet.size < 4) {
+            const wrong = val2 + (Math.floor(Math.random() * 10) - 5); // +/- 5
+            if (wrong > 0 && wrong !== val2) optionsSet.add(wrong);
+        }
+        const options = Array.from(optionsSet).sort(() => Math.random() - 0.5);
+
+        return {
+            equations: [eq1, eq2],
+            question: `${content.emoji2} = ?`,
+            options: options,
+            correctAnswer: val2,
+            explanation: `First: ${content.emoji1} + ${content.emoji1} = ${sum1}, so ${content.emoji1} is ${val1}. Then: ${val1} + ${content.emoji2} = ${sum2}, so ${content.emoji2} is ${val2}!`
+        };
 
     } catch (error) {
         console.error("Emoji Equator error:", error);
