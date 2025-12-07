@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import robotImg from '../assets/images/robot.png';
 
 interface LandingPageProps {
-    onNavigate: (view: 'sequencing' | 'mystery-match' | 'odd-one-out') => void;
+    onNavigate: (view: 'sequencing' | 'mystery-match' | 'odd-one-out' | 'emoji-equator') => void;
 }
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
@@ -101,6 +101,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                             <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🕵️</div>
                             <h3>Odd One Out</h3>
                             <p>Which one is different?</p>
+                        </div>
+
+                        <div className={styles.gameCard} onClick={() => onNavigate('emoji-equator')}>
+                            <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🧮</div>
+                            <h3>Emoji Equator</h3>
+                            <p>Solve with pictures!</p>
                         </div>
                     </div>
                 )}

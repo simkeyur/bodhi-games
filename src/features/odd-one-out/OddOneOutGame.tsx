@@ -83,8 +83,6 @@ export const OddOneOutGame: React.FC<OddOneOutGameProps> = ({ onBack }) => {
                     <div className={styles.grid}>
                         {config.items.map(item => {
                             const isSelected = selectedId === item.id;
-                            const isCorrect = isWon && item.isOutlier;
-
                             // Visual state: 
                             // If game won, highlight correct answer.
                             // If current selection is wrong, highlight red.

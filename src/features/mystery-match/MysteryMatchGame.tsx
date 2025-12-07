@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { generateMysteryMatch, type MysteryMatchConfig } from '../../services/geminiService';
+import { generateMysteryMatch } from '../../services/geminiService';
 import styles from './components/MysteryMatch.module.css';
 
 interface MysteryMatchGameProps {

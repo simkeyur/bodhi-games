@@ -4,7 +4,7 @@ import { Navbar } from './Navbar';
 
 interface GameLayoutProps {
     children: ReactNode;
-    currentView: 'home' | 'sequencing' | 'mystery-match' | 'odd-one-out';
+    currentView: 'home' | 'sequencing' | 'mystery-match' | 'odd-one-out' | 'emoji-equator';
     onNavigateHome: () => void;
 }
 
