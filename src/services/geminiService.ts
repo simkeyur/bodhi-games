@@ -16,6 +16,7 @@ export interface LevelConfig {
     goalPos: { x: number, y: number };
     obstacles?: { x: number, y: number }[]; /* Future proofing */
     message?: string;
+    isAiGenerated: boolean;
 }
 
 export const generateLevel = async (levelNumber: number): Promise<LevelConfig> => {
@@ -26,7 +27,8 @@ export const generateLevel = async (levelNumber: number): Promise<LevelConfig> =
             gridSize: 4,
             robotPos: { x: 0, y: 0 },
             goalPos: { x: 2, y: 2 },
-            message: "AI Offline: Using offline level. Restart server to fix!"
+            message: "AI Offline: Using offline level. Restart server to fix!",
+            isAiGenerated: false
         };
     }
 
@@ -77,7 +79,7 @@ export const generateLevel = async (levelNumber: number): Promise<LevelConfig> =
         const jsonStr = text.replace(/```json/g, '').replace(/```/g, '').trim();
 
         const data = JSON.parse(jsonStr) as LevelConfig;
-        return data;
+        return { ...data, isAiGenerated: true };
 
     } catch (error) {
         console.error("Failed to generate level with Gemini:", error);
@@ -86,7 +88,8 @@ export const generateLevel = async (levelNumber: number): Promise<LevelConfig> =
             gridSize: 4,
             robotPos: { x: 0, y: 0 },
             goalPos: { x: 3, y: 3 },
-            message: "Fallback Level (AI generation failed)"
+            message: "Fallback Level (AI generation failed)",
+            isAiGenerated: false
         };
     }
 };

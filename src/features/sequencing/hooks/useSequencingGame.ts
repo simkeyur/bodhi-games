@@ -16,6 +16,7 @@ interface GameState {
     isPlaying: boolean;
     isWon: boolean;
     isFailed: boolean; // New state
+    isAiGenerated?: boolean;
     sequence: Command[];
     currentStepIndex: number; // For highlighting active command
 }
@@ -30,6 +31,7 @@ export const useSequencingGame = () => {
         isPlaying: false,
         isWon: false,
         isFailed: false,
+        isAiGenerated: false,
         sequence: [],
         currentStepIndex: -1,
     });
@@ -152,7 +154,7 @@ export const useSequencingGame = () => {
     }, [gameState.isPlaying, gameState.isWon, gameState.isFailed]);
 
     // Level Management
-    const loadLevel = useCallback((config: { gridSize: number, robotPos: Position, goalPos: Position, obstacles?: Position[] }) => {
+    const loadLevel = useCallback((config: { gridSize: number, robotPos: Position, goalPos: Position, obstacles?: Position[], isAiGenerated?: boolean }) => {
         setGameState(prev => ({
             ...prev,
             gridSize: config.gridSize,
@@ -163,7 +165,8 @@ export const useSequencingGame = () => {
             isPlaying: false,
             isWon: false,
             isFailed: false,
-            currentStepIndex: -1
+            currentStepIndex: -1,
+            isAiGenerated: config.isAiGenerated ?? false
         }));
     }, []);
 

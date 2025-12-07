@@ -44,7 +44,9 @@ export const SequencingGame: React.FC<SequencingGameProps> = () => {
             loadLevel({
                 gridSize: config.gridSize,
                 robotPos: config.robotPos,
-                goalPos: config.goalPos
+                goalPos: config.goalPos,
+                obstacles: config.obstacles,
+                isAiGenerated: config.isAiGenerated
             });
 
             setLevel(nextLevel);
@@ -81,14 +83,33 @@ export const SequencingGame: React.FC<SequencingGameProps> = () => {
                 <div style={{
                     position: 'absolute',
                     top: 0,
-                    background: 'rgba(255,255,255,0.1)',
-                    padding: '5px 15px',
-                    borderRadius: '20px',
-                    fontSize: '0.9rem',
-                    fontWeight: 'bold',
-                    color: '#ffd700'
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '4px'
                 }}>
-                    LEVEL {level}
+                    <div style={{
+                        background: 'rgba(255,255,255,0.1)',
+                        padding: '5px 15px',
+                        borderRadius: '20px',
+                        fontSize: '0.9rem',
+                        fontWeight: 'bold',
+                        color: '#ffd700'
+                    }}>
+                        LEVEL {level}
+                    </div>
+                    {gameState.isAiGenerated !== undefined && (
+                        <div style={{
+                            background: gameState.isAiGenerated ? 'rgba(100, 200, 255, 0.2)' : 'rgba(255, 100, 100, 0.2)',
+                            padding: '2px 10px',
+                            borderRadius: '12px',
+                            fontSize: '0.7rem',
+                            color: gameState.isAiGenerated ? '#00d2ff' : '#ffaaaa',
+                            border: `1px solid ${gameState.isAiGenerated ? 'rgba(0, 210, 255, 0.3)' : 'rgba(255, 170, 170, 0.3)'}`
+                        }}>
+                            {gameState.isAiGenerated ? '✨ AI Generated' : '🛠️ Manual Level'}
+                        </div>
+                    )}
                 </div>
 
                 <GridBoard
