@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { GameLayout } from './components/Layout/GameLayout';
 import { SequencingGame } from './features/sequencing/SequencingGame';
-import { SortingGame } from './features/sorting/SortingGame';
 import { LandingPage } from './components/LandingPage';
 
 const App: React.FC = () => {
-  const [currentView, setCurrentView] = useState<'home' | 'sequencing' | 'sorting'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'sequencing'>('home');
 
   return (
     <GameLayout currentView={currentView} onNavigateHome={() => setCurrentView('home')}>
@@ -15,10 +14,6 @@ const App: React.FC = () => {
 
       {currentView === 'sequencing' && (
         <SequencingGame onBack={() => setCurrentView('home')} />
-      )}
-
-      {currentView === 'sorting' && (
-        <SortingGame onBack={() => setCurrentView('home')} />
       )}
     </GameLayout>
   );

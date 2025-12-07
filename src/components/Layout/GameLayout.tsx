@@ -4,7 +4,7 @@ import { Navbar } from './Navbar';
 
 interface GameLayoutProps {
     children: ReactNode;
-    currentView: 'home' | 'sequencing' | 'sorting';
+    currentView: 'home' | 'sequencing';
     onNavigateHome: () => void;
 }
 

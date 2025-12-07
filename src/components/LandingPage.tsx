@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import robotImg from '../assets/images/robot.png';
 
 interface LandingPageProps {
-    onNavigate: (view: 'sequencing' | 'sorting') => void;
+    onNavigate: (view: 'sequencing') => void;
 }
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
