@@ -8,7 +8,7 @@ interface SequencingGameProps {
     onBack: () => void;
 }
 
-export const SequencingGame: React.FC<SequencingGameProps> = ({ onBack }) => {
+export const SequencingGame: React.FC<SequencingGameProps> = () => {
     const {
         gameState,
         ghostPos,
@@ -38,12 +38,6 @@ export const SequencingGame: React.FC<SequencingGameProps> = ({ onBack }) => {
             gap: '1rem',
             color: 'white'
         }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', maxWidth: '800px' }}>
-                <button onClick={onBack} style={{ background: 'none', fontSize: '2rem' }}>🔙</button>
-                <div style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>Level 1</div>
-                <div style={{ width: '50px' }}></div> {/* Spacer */}
-            </div>
-
             <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <GridBoard
                     size={gameState.gridSize}

@@ -40,7 +40,7 @@ const DraggableItem: React.FC<DraggableItemProps> = ({ item, onDrop }) => {
     );
 };
 
-export const SortingGame: React.FC<SortingGameProps> = ({ onBack }) => {
+export const SortingGame: React.FC<SortingGameProps> = () => {
     const { gameState, startGame, verifySort } = useSortingGame();
     const { saveScore } = useGameScore('sorting');
     // Bins refs to calculate collision
@@ -80,14 +80,6 @@ export const SortingGame: React.FC<SortingGameProps> = ({ onBack }) => {
                 <div>⭐ {gameState.score}</div>
                 <div>❤️ {gameState.lives}</div>
             </div>
-
-            {/* Back Button */}
-            <button
-                onClick={onBack}
-                style={{ position: 'absolute', top: '1rem', left: '1rem', fontSize: '2rem', background: 'none' }}
-            >
-                🔙
-            </button>
 
             {/* Conveyor Belt */}
             <div className={styles.conveyorContainer}>
@@ -132,19 +124,6 @@ export const SortingGame: React.FC<SortingGameProps> = ({ onBack }) => {
                         }}
                     >
                         Try Again 🔄
-                    </button>
-                    <button
-                        onClick={onBack}
-                        style={{
-                            padding: '1rem 2rem',
-                            fontSize: '1.2rem',
-                            borderRadius: '50px',
-                            background: 'var(--color-primary)',
-                            color: 'white',
-                            marginTop: '1rem'
-                        }}
-                    >
-                        Back Home
                     </button>
                 </div>
             )}
