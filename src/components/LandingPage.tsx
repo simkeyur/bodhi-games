@@ -91,11 +91,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                             <p>Code the robot to the star!</p>
                         </div>
 
-                        <div className={styles.gameCard} onClick={() => onNavigate('sorting')}>
-                            <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>📦</div>
-                            <h3>Space Sorter</h3>
-                            <p>Sort items by color!</p>
-                        </div>
                     </div>
                 )}
             </div>
