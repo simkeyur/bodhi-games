@@ -100,8 +100,17 @@
     background: rgba(255, 255, 255, 0.1);
     border-radius: var(--curved-radius);
     overflow-x: auto;
-    max-width: 100%;
+    /* Flex behavior */
+    flex: 1;
+    min-width: 0;
+    /* Hide scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     align-items: center;
+}
+
+.sequenceList::-webkit-scrollbar {
+    display: none;
 }
 
 .sequenceItem {
