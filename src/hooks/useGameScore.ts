@@ -37,8 +37,13 @@ export const useGameScore = (gameId: string) => {
                 });
             }
             console.log(`Score saved for ${gameId}: ${score}`);
-        } catch (error) {
-            console.error("Error saving score:", error);
+        } catch (error: any) {
+            // Suppress offline errors, proceed gracefully
+            if (error?.code === 'unavailable' || error?.message?.includes('offline')) {
+                console.warn("Score not saved (Offline Mode)");
+            } else {
+                console.error("Error saving score:", error);
+            }
         }
     };
 
