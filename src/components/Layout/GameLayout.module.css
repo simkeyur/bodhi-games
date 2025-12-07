@@ -133,3 +133,8 @@
     cursor: pointer;
     padding: 0 5px;
 }
+
+.navName {
+    font-size: 0.9rem;
+    white-space: nowrap;
+}

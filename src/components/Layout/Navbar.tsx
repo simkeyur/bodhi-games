@@ -9,40 +9,43 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigateHome }) => {
     const { user, logout } = useAuth();
-    const guestUser = !user && localStorage.getItem('guestMode') === 'true';
-    const displayUser = user || (guestUser ? { displayName: 'Guest Explorer', photoURL: null } : null);
 
-    if (currentView === 'home' && !displayUser) return null; // Don't show on home if logged out (Gate handles it)
+    // Don't show navbar on home page
+    if (currentView === 'home') return null;
+
+    // Check if guest mode
+    const isGuest = !user && localStorage.getItem('guestMode') === 'true';
+    const displayName = user?.displayName?.split(' ')[0] || (isGuest ? 'Guest' : null);
 
     return (
         <nav className={styles.navbar}>
-            {/* Left: Home Button (only if not on home) */}
+            {/* Left: Home Button */}
             <div className={styles.navLeft}>
-                {currentView !== 'home' && (
-                    <button onClick={onNavigateHome} className={styles.navButton} aria-label="Go Home">
-                        🏠
-                    </button>
-                )}
+                <button onClick={onNavigateHome} className={styles.navButton} aria-label="Go Home">
+                    🏠
+                </button>
             </div>
 
-            {/* Center: Title (Small) */}
+            {/* Center: Title */}
             <div className={styles.navCenter}>
                 <span className={styles.navTitle}>Bodhi Games</span>
             </div>
 
-            {/* Right: User Profile */}
+            {/* Right: User Info */}
             <div className={styles.navRight}>
-                {displayUser && (
+                {(user || isGuest) && (
                     <div className={styles.profileBadge}>
-                        {displayUser.photoURL ? (
-                            <img src={displayUser.photoURL} alt="Profile" className={styles.avatar} />
+                        {user?.photoURL ? (
+                            <img src={user.photoURL} alt="Profile" className={styles.avatar} />
                         ) : (
                             <div className={styles.avatarPlaceholder}>👾</div>
                         )}
-                        <span className={styles.navName}>{displayUser.displayName?.split(' ')[0]}</span>
-                        <button onClick={() => logout()} className={styles.logoutBtn}>
-                            ↩️
-                        </button>
+                        <span className={styles.navName}>{displayName}</span>
+                        {user && (
+                            <button onClick={() => logout()} className={styles.logoutBtn} aria-label="Sign Out">
+                                ↩️
+                            </button>
+                        )}
                     </div>
                 )}
             </div>
