@@ -4,7 +4,8 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
 if (!API_KEY) {
-    console.warn("Gemini API Key is missing! Restart the dev server if you just added .env.");
+    console.error("CRITICAL: Gemini API Key is missing! .env variables might not be loaded in production.");
+    console.error("Make sure VITE_GEMINI_API_KEY is set in your Firebase/Vercel dashboard.");
 }
 
 // Only init if key exists to avoid errors
