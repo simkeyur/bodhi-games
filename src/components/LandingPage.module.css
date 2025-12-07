@@ -139,27 +139,83 @@
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
+/* Game Menu - Vertical Panels */
 .gameMenu {
     display: flex;
-    gap: 2rem;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column;
+    /* Vertical stack */
+    gap: 1rem;
+    width: 100%;
+    max-width: 600px;
+    /* Panel constraint */
+    align-items: stretch;
+    /* Stretch cards to full width */
+    margin-top: 2rem;
 }
 
 .gameCard {
     background: rgba(255, 255, 255, 0.1);
-    padding: 2rem;
-    border-radius: 20px;
+    padding: 1.5rem 2rem;
+    border-radius: 24px;
     cursor: pointer;
     border: 2px solid transparent;
-    transition: all 0.3s ease;
-    min-width: 200px;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    text-align: left;
+    /* Align text left for panels */
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.gameCard:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-10px) scale(1.05);
-    border-color: rgba(255, 255, 255, 0.5);
+.gameCard:active {
+    transform: scale(0.98);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Desktop Hover */
+@media (hover: hover) {
+    .gameCard:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-5px);
+        border-color: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.info {
+    flex: 1;
+}
+
+.icon {
+    font-size: 3rem;
+    background: rgba(255, 255, 255, 0.1);
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.title {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 0.2rem;
+}
+
+.desc {
+    margin: 0;
+    font-size: 0.95rem;
+    opacity: 0.8;
+}
+
+/* Arrow indicator */
+.arrow {
+    opacity: 0.5;
+    font-size: 1.5rem;
 }
 
 .userBadge {

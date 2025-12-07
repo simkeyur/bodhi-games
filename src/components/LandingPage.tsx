@@ -85,28 +85,44 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                     </div>
                 ) : (
                     <div className={styles.gameMenu}>
+                        {/* Robot Path Panel */}
                         <div className={styles.gameCard} onClick={() => onNavigate('sequencing')}>
-                            <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🤖</div>
-                            <h3>Robot Path</h3>
-                            <p>Code the robot to the star!</p>
+                            <div className={styles.icon}>🤖</div>
+                            <div className={styles.info}>
+                                <h3 className={styles.title}>Robot Path</h3>
+                                <p className={styles.desc}>Code the robot to the star!</p>
+                            </div>
+                            <div className={styles.arrow}>➡️</div>
                         </div>
 
+                        {/* Mystery Match Panel */}
                         <div className={styles.gameCard} onClick={() => onNavigate('mystery-match')}>
-                            <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🔍</div>
-                            <h3>Mystery Match</h3>
-                            <p>Find related pairs!</p>
+                            <div className={styles.icon}>🔍</div>
+                            <div className={styles.info}>
+                                <h3 className={styles.title}>Mystery Match</h3>
+                                <p className={styles.desc}>Find related pairs!</p>
+                            </div>
+                            <div className={styles.arrow}>➡️</div>
                         </div>
 
+                        {/* Odd One Out Panel */}
                         <div className={styles.gameCard} onClick={() => onNavigate('odd-one-out')}>
-                            <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🕵️</div>
-                            <h3>Odd One Out</h3>
-                            <p>Which one is different?</p>
+                            <div className={styles.icon}>🕵️</div>
+                            <div className={styles.info}>
+                                <h3 className={styles.title}>Odd One Out</h3>
+                                <p className={styles.desc}>Which one is different?</p>
+                            </div>
+                            <div className={styles.arrow}>➡️</div>
                         </div>
 
+                        {/* Emoji Equator Panel */}
                         <div className={styles.gameCard} onClick={() => onNavigate('emoji-equator')}>
-                            <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🧮</div>
-                            <h3>Emoji Equator</h3>
-                            <p>Solve with pictures!</p>
+                            <div className={styles.icon}>🧮</div>
+                            <div className={styles.info}>
+                                <h3 className={styles.title}>Emoji Equator</h3>
+                                <p className={styles.desc}>Solve with pictures!</p>
+                            </div>
+                            <div className={styles.arrow}>➡️</div>
                         </div>
                     </div>
                 )}
