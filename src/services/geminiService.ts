@@ -177,17 +177,31 @@ export const generateOddOneOut = async (): Promise<OddOneOutConfig> => {
 
     try {
         const model = genAI.getGenerativeModel({ model: "gemma-3-27b-it" });
+
+        // Randomize the category to prevent repetitive "Animal/Car" puzzles
+        const categories = [
+            "Fruits vs Vegetables",
+            "Flying things vs Ground things",
+            "Hot things vs Cold things",
+            "Tools vs Toys",
+            "Furniture vs Vehicles",
+            "Water animals vs Land animals",
+            "Round shapes vs Square shapes"
+        ];
+        const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+
         const prompt = `
-        Create an "Odd One Out" puzzle for a child.
-        Generate 4 items: 3 are related, 1 is the outlier.
-        Use Emojis.
+        Create an "Odd One Out" puzzle for a 6-year-old.
+        Category Idea: ${randomCategory} (or choose a similar simple concept).
+        Generate 4 items: 3 share a common property, 1 does not.
+        Use Emojis as content.
 
         Response Format (JSON):
         {
             "items": [
                 { "id": "1", "content": "emoji", "isOutlier": boolean }
             ],
-            "explanation": "Simple sentence explaining why it is the outlier."
+            "explanation": "Simple, child-friendly sentence explaining why it is the outlier."
         }
         `;
 
