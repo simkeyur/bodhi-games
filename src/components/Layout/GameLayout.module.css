@@ -46,10 +46,11 @@
     align-items: center;
     padding: max(10px, env(safe-area-inset-top)) 20px 10px;
     z-index: 200;
-    /* Above floating emojis and game elements */
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
-    pointer-events: none;
-    /* Let clicks pass through empty space */
+    /* Glassmorphism with more opacity to prevent messy overlap */
+    background: rgba(26, 11, 46, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .navLeft,

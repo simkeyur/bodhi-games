@@ -34,6 +34,7 @@ export const SequencingGame: React.FC<SequencingGameProps> = () => {
             height: '100%',
             width: '100%',
             padding: '1rem',
+            paddingTop: 'calc(80px + env(safe-area-inset-top))', /* Account for Navbar */
             alignItems: 'center',
             gap: '1rem',
             color: 'white'
