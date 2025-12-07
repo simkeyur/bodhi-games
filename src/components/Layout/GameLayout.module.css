@@ -152,10 +152,9 @@
     position: absolute;
     font-size: 3rem;
     opacity: 0.3;
-    animation: floatUp 8s linear infinite;
-    /* Increased duration for smoother effect */
+    animation: floatUp 20s linear infinite;
+    /* Much slower */
     bottom: -10vh;
-    /* Start slightly below screen */
 }
 
 @keyframes floatUp {
@@ -168,12 +167,14 @@
         opacity: 0.3;
     }
 
-    90% {
+    80% {
         opacity: 0.3;
+        /* Stay visible longer */
     }
 
     100% {
-        transform: translateY(-20vh) rotate(360deg);
+        transform: translateY(-50vh) rotate(360deg);
+        /* Float much higher */
         opacity: 0;
     }
 }
