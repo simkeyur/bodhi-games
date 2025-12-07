@@ -124,6 +124,20 @@ export const useSequencingGame = () => {
         return () => clearTimeout(startTimeout);
     }, [gameState.isPlaying, gameState.isWon]); // dependencies simplified as sequence doesn't change during play
 
+    // Level Management
+    const loadLevel = useCallback((config: { gridSize: number, robotPos: Position, goalPos: Position }) => {
+        setGameState(prev => ({
+            ...prev,
+            gridSize: config.gridSize,
+            robotPos: config.robotPos,
+            goalPos: config.goalPos,
+            sequence: [],
+            isPlaying: false,
+            isWon: false,
+            currentStepIndex: -1
+        }));
+    }, []);
+
     return {
         gameState,
         ghostPos,
@@ -131,6 +145,7 @@ export const useSequencingGame = () => {
         removeCommand,
         clearSequence,
         runSequence,
-        resetGame
+        resetGame,
+        loadLevel
     };
 };
