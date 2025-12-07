@@ -24,9 +24,12 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigateHome }) =
 
         if (isGuest) {
             // "Offer to login"
-            if (window.confirm("👋 Ready to leave Guest Mode?\n\nSign in with Google to save your high scores! 🏆")) {
-                signInWithGoogle();
-            }
+            // Use setTimeout to ensure event finishes processing before blocking with confirm
+            setTimeout(() => {
+                if (window.confirm("👋 Ready to leave Guest Mode?\n\nSign in with Google to save your high scores! 🏆")) {
+                    signInWithGoogle();
+                }
+            }, 10);
         } else {
             // Toggle logout button visibility
             setShowLogout(!showLogout);

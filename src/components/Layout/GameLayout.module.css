@@ -29,7 +29,8 @@
     justify-content: space-between;
     align-items: center;
     padding: max(10px, env(safe-area-inset-top)) 20px 10px;
-    z-index: 200;
+    z-index: 1000;
+    /* Ensure it stays on top of everything */
     /* Glassmorphism with more opacity to prevent messy overlap */
     background: rgba(26, 11, 46, 0.7);
     backdrop-filter: blur(10px);
