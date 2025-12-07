@@ -20,6 +20,18 @@ export interface LevelConfig {
     isAiGenerated: boolean;
 }
 
+// Mystery Match Configuration
+export interface MysteryMatchConfig {
+    pairs: { id: string, item1: string, item2: string }[];
+    theme: string;
+}
+
+// Odd One Out Configuration
+export interface OddOneOutConfig {
+    items: { id: string, content: string, isOutlier: boolean }[];
+    explanation: string;
+}
+
 export const generateLevel = async (levelNumber: number): Promise<LevelConfig> => {
     // Immediate fallback if no key
     if (!genAI) {
@@ -91,6 +103,109 @@ export const generateLevel = async (levelNumber: number): Promise<LevelConfig> =
             goalPos: { x: 3, y: 3 },
             message: "Fallback Level (AI generation failed)",
             isAiGenerated: false
+        };
+    }
+};
+
+export const generateMysteryMatch = async (): Promise<MysteryMatchConfig> => {
+    if (!genAI) {
+        console.error("Gemini API not initialized.");
+        return {
+            theme: "Offline Fallback",
+            pairs: [
+                { id: "1", item1: "🐶", item2: "Bone" },
+                { id: "2", item1: "🐱", item2: "Yarn" },
+                { id: "3", item1: "🌧️", item2: "Umbrella" },
+                { id: "4", item1: "🐝", item2: "Flower" }
+            ]
+        };
+    }
+
+    try {
+        const model = genAI.getGenerativeModel({ model: "gemma-3-27b-it" });
+        const themes = ["Animals", "Space", "Jobs", "Weather", "Food", "Sports"];
+        const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+
+        const prompt = `
+        Create a matching pairs game database for kids. Theme: ${randomTheme}.
+        Generate 6 conceptual pairs (not identical images).
+        Example: If theme is "Ocean", pairs could be "Shark"/"Meat" or "Fish"/"Water" or "Ship"/"Anchor".
+        Use Emojis for item1 and simple Words (or Emojis) for item2.
+
+        Response Format (JSON):
+        {
+            "theme": "${randomTheme}",
+            "pairs": [
+                { "id": "1", "item1": "emoji", "item2": "text/emoji" }
+            ]
+        }
+        `;
+
+        const result = await model.generateContent(prompt);
+        const text = result.response.text();
+        const jsonStr = text.replace(/```json/g, '').replace(/```/g, '').trim();
+        return JSON.parse(jsonStr) as MysteryMatchConfig;
+
+    } catch (error) {
+        console.error("Discovery error:", error);
+        return {
+            theme: "Error Fallback",
+            pairs: [
+                { id: "1", item1: "🚀", item2: "Moon" },
+                { id: "2", item1: "👨‍🚀", item2: "Suit" },
+                { id: "3", item1: "☀️", item2: "Hot" },
+                { id: "4", item1: "❄️", item2: "Cold" },
+                { id: "5", item1: "🔥", item2: "Fire" },
+                { id: "6", item1: "💧", item2: "Water" }
+            ]
+        };
+    }
+};
+
+export const generateOddOneOut = async (): Promise<OddOneOutConfig> => {
+    if (!genAI) {
+        return {
+            items: [
+                { id: "1", content: "🐶", isOutlier: false },
+                { id: "2", content: "🐱", isOutlier: false },
+                { id: "3", content: "🐮", isOutlier: false },
+                { id: "4", content: "🚗", isOutlier: true }
+            ],
+            explanation: "The car is a machine, the others are animals! (Offline)"
+        };
+    }
+
+    try {
+        const model = genAI.getGenerativeModel({ model: "gemma-3-27b-it" });
+        const prompt = `
+        Create an "Odd One Out" puzzle for a child.
+        Generate 4 items: 3 are related, 1 is the outlier.
+        Use Emojis.
+
+        Response Format (JSON):
+        {
+            "items": [
+                { "id": "1", "content": "emoji", "isOutlier": boolean }
+            ],
+            "explanation": "Simple sentence explaining why it is the outlier."
+        }
+        `;
+
+        const result = await model.generateContent(prompt);
+        const text = result.response.text();
+        const jsonStr = text.replace(/```json/g, '').replace(/```/g, '').trim();
+        return JSON.parse(jsonStr) as OddOneOutConfig;
+
+    } catch (error) {
+        console.error("OddOneOut error:", error);
+        return {
+            items: [
+                { id: "1", content: "🍎", isOutlier: false },
+                { id: "2", content: "🍌", isOutlier: false },
+                { id: "3", content: "🍇", isOutlier: false },
+                { id: "4", content: "🍕", isOutlier: true }
+            ],
+            explanation: "Pizza is junk food (or cooked), others are raw fruits!"
         };
     }
 };

@@ -4,7 +4,7 @@ import styles from './GameLayout.module.css';
 import { LogOut, User as UserIcon } from 'lucide-react';
 
 interface NavbarProps {
-    currentView: 'home' | 'sequencing' | 'sorting';
+    currentView: 'home' | 'sequencing' | 'mystery-match' | 'odd-one-out';
     onNavigateHome: () => void;
 }
 

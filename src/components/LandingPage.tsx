@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import robotImg from '../assets/images/robot.png';
 
 interface LandingPageProps {
-    onNavigate: (view: 'sequencing') => void;
+    onNavigate: (view: 'sequencing' | 'mystery-match' | 'odd-one-out') => void;
 }
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
@@ -91,6 +91,17 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                             <p>Code the robot to the star!</p>
                         </div>
 
+                        <div className={styles.gameCard} onClick={() => onNavigate('mystery-match')}>
+                            <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🔍</div>
+                            <h3>Mystery Match</h3>
+                            <p>Find related pairs!</p>
+                        </div>
+
+                        <div className={styles.gameCard} onClick={() => onNavigate('odd-one-out')}>
+                            <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🕵️</div>
+                            <h3>Odd One Out</h3>
+                            <p>Which one is different?</p>
+                        </div>
                     </div>
                 )}
             </div>
