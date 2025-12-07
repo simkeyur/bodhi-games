@@ -114,7 +114,7 @@ export const useSequencingGame = () => {
                         if (cmd === 'up') y = Math.max(0, y - 1);
                         if (cmd === 'down') y = Math.min(prev.gridSize - 1, y + 1);
                         if (cmd === 'left') x = Math.max(0, x - 1);
-                        if (cmd === 'right') x = Math.min(prev.gridSize - 1, y + 1);
+                        if (cmd === 'right') x = Math.min(prev.gridSize - 1, x + 1);
 
                         // Check Obstacle Collision
                         const hitObstacle = prev.obstacles.some(obs => obs.x === x && obs.y === y);

@@ -43,6 +43,25 @@
     animation: pulse 2s infinite;
 }
 
+.obstacle {
+    font-size: 2.5rem;
+    filter: drop-shadow(0 0 5px red);
+    animation: float 3s ease-in-out infinite;
+    z-index: 2;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
 /* Command Palette */
 .palette {
     display: flex;
