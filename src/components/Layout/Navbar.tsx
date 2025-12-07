@@ -10,9 +10,6 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigateHome }) => {
     const { user, logout } = useAuth();
 
-    // Don't show navbar on home page
-    if (currentView === 'home') return null;
-
     // Check if guest mode
     const isGuest = !user && localStorage.getItem('guestMode') === 'true';
     const displayName = user?.displayName?.split(' ')[0] || (isGuest ? 'Guest' : null);
@@ -21,9 +18,11 @@ export const Navbar: React.FC<NavbarProps> = ({ currentView, onNavigateHome }) =
         <nav className={styles.navbar}>
             {/* Left: Home Button */}
             <div className={styles.navLeft}>
-                <button onClick={onNavigateHome} className={styles.navButton} aria-label="Go Home">
-                    🏠
-                </button>
+                {currentView !== 'home' && (
+                    <button onClick={onNavigateHome} className={styles.navButton} aria-label="Go Home">
+                        🏠
+                    </button>
+                )}
             </div>
 
             {/* Center: Title */}
