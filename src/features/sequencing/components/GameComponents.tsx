@@ -4,12 +4,37 @@ import styles from './SequencingStyles.module.css';
 import { type Command, type Direction } from '../hooks/useSequencingGame';
 
 // Icons using unicode or simple SVGs for now
+// SVG Icons for consistent rendering across devices
 const Icons = {
-    up: '⬆️',
-    down: '⬇️',
-    left: '⬅️',
-    right: '➡️',
-    star: '⭐'
+    up: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 19V5" />
+            <path d="M5 12l7-7 7 7" />
+        </svg>
+    ),
+    down: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 5v14" />
+            <path d="M19 12l-7 7-7-7" />
+        </svg>
+    ),
+    left: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M19 12H5" />
+            <path d="M12 19l-7-7 7-7" />
+        </svg>
+    ),
+    right: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M5 12h14" />
+            <path d="M12 5l7 7-7 7" />
+        </svg>
+    ),
+    star: (
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="gold" stroke="orange" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+        </svg>
+    )
 };
 
 interface GridBoardProps {
