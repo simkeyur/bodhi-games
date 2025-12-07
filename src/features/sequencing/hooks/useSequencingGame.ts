@@ -67,11 +67,12 @@ export const useSequencingGame = () => {
     }, [gameState.sequence]);
 
     // Game Loop
-    const stepRef = useRef(0);
+    const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
     // Calculate Ghost Position (Preview)
     const ghostPos = (() => {
-        let { x, y } = { x: 0, y: 0 }; // Assume starting at 0,0 for Level 1
+        let { x, y } = { x: 0, y: 0 };
         for (const cmd of gameState.sequence) {
             if (cmd === 'up') y = Math.max(0, y - 1);
             if (cmd === 'down') y = Math.min(gameState.gridSize - 1, y + 1);
@@ -82,19 +83,27 @@ export const useSequencingGame = () => {
     })();
 
     useEffect(() => {
+        // Cleanup function first to handle re-renders/unmounts
+        return () => {
+            if (timerRef.current) clearTimeout(timerRef.current);
+            if (intervalRef.current) clearInterval(intervalRef.current);
+        };
+    }, []);
+
+    useEffect(() => {
         if (!gameState.isPlaying || gameState.isWon) return;
 
-        stepRef.current = 0;
+        // Reset step index implicitly by starting logic 
+        // We rely on currentStepIndex initialized to -1 in runSequence
 
-        // Initial delay to let the robot reset to 0,0 visually before moving
-        const startTimeout = setTimeout(() => {
-            const interval = setInterval(() => {
+        timerRef.current = setTimeout(() => {
+            intervalRef.current = setInterval(() => {
                 setGameState(prev => {
-                    const currentStep = stepRef.current;
+                    const nextStep = prev.currentStepIndex + 1;
 
                     // Execute move
-                    if (currentStep < prev.sequence.length) {
-                        const cmd = prev.sequence[currentStep];
+                    if (nextStep < prev.sequence.length) {
+                        const cmd = prev.sequence[nextStep];
                         let { x, y } = prev.robotPos;
 
                         if (cmd === 'up') y = Math.max(0, y - 1);
@@ -102,28 +111,26 @@ export const useSequencingGame = () => {
                         if (cmd === 'left') x = Math.max(0, x - 1);
                         if (cmd === 'right') x = Math.min(prev.gridSize - 1, x + 1);
 
-                        // Increment for next tick
-                        stepRef.current++;
-
                         return {
                             ...prev,
                             robotPos: { x, y },
-                            currentStepIndex: currentStep
+                            currentStepIndex: nextStep
                         };
                     } else {
                         // Sequence finished
-                        clearInterval(interval);
+                        if (intervalRef.current) clearInterval(intervalRef.current);
                         const won = prev.robotPos.x === prev.goalPos.x && prev.robotPos.y === prev.goalPos.y;
                         return { ...prev, isPlaying: false, isWon: won, currentStepIndex: -1 };
                     }
                 });
             }, 600);
-
-            return () => clearInterval(interval);
         }, 500); // 500ms initial pause
 
-        return () => clearTimeout(startTimeout);
-    }, [gameState.isPlaying, gameState.isWon]); // dependencies simplified as sequence doesn't change during play
+        return () => {
+            if (timerRef.current) clearTimeout(timerRef.current);
+            if (intervalRef.current) clearInterval(intervalRef.current);
+        };
+    }, [gameState.isPlaying, gameState.isWon]);
 
     // Level Management
     const loadLevel = useCallback((config: { gridSize: number, robotPos: Position, goalPos: Position }) => {
