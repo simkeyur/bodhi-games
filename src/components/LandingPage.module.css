@@ -1,8 +1,11 @@
 .landingContainer {
     position: relative;
     width: 100%;
-    height: 100vh;
-    overflow: hidden;
+    height: 100%;
+    /* Fill the GameLayout container */
+    overflow-y: auto;
+    /* Handle scrolling internally */
+    -webkit-overflow-scrolling: touch;
     /* Background moved to GameLayout */
     color: white;
     font-family: 'Outfit', sans-serif;

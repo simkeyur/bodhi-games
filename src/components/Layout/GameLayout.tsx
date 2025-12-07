@@ -27,7 +27,15 @@ export const GameLayout: React.FC<GameLayoutProps> = ({ children, currentView, o
     }, []);
 
     return (
-        <div className={styles.gameContainer}>
+        <div
+            className={styles.gameContainer}
+            style={{
+                // Allow scrolling on Home for PWA panels, but lock it for games to prevent swipe-nav
+                overflow: currentView === 'home' ? 'auto' : 'hidden',
+                // Ensure overscroll behavior is clean on iOS
+                WebkitOverflowScrolling: 'touch'
+            }}
+        >
             {/* Global Background Layer */}
             <div className={styles.backgroundLayer}>
                 {emojis.map(e => (

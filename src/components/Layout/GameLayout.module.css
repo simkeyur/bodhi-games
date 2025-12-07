@@ -179,10 +179,9 @@
     height: 100vh;
     background: linear-gradient(135deg, #1a0b2e 0%, #2e1a4e 100%);
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden;  <-- REMOVED so LandingPage can scroll if it wants to */
     display: flex;
     flex-direction: column;
-    /* Changed to column to stack navbar naturally if needed, though absolute positioning overrides */
 }
 
 .backgroundLayer {
