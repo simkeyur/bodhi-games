@@ -9,19 +9,7 @@ interface LandingPageProps {
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
     const { user, signInWithGoogle, enableGuestMode } = useAuth();
-    const [emojis, setEmojis] = useState<{ id: number, char: string, left: string, delay: string }[]>([]);
-
-    useEffect(() => {
-        // Generate random floating emojis
-        const emojiList = ['🚀', '⭐', '🪐', '👾', '🛸', '🌌', '🌑', '🌠'];
-        const newEmojis = Array.from({ length: 20 }).map((_, i) => ({
-            id: i,
-            char: emojiList[Math.floor(Math.random() * emojiList.length)],
-            left: `${Math.random() * 100}%`,
-            delay: `${Math.random() * 5}s`
-        }));
-        setEmojis(newEmojis);
-    }, []);
+    // Emojis handled in GameLayout globally now
 
     const [installPrompt, setInstallPrompt] = useState<any>(null);
 
@@ -48,20 +36,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
 
     return (
         <div className={styles.landingContainer}>
-            {/* Background Layer */}
-            <div className={styles.backgroundLayer}>
-                {emojis.map(e => (
-                    <span
-                        key={e.id}
-                        className={styles.floatingEmoji}
-                        style={{ left: e.left, animationDelay: e.delay }}
-                    >
-                        {e.char}
-                    </span>
-                ))}
-            </div>
-
-            {/* User Badge removed - Moved to Navbar */}
 
             {/* Main Content */}
             <div className={styles.content}>
